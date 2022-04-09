@@ -30,7 +30,12 @@ public class Enrollment {
 	private boolean available;
 	private boolean onlyUpdate;
 
-
+	
+	
+	@ManyToMany(mappedBy = "enrollmentsDone")
+	private Set<Lesson> lessonsDone = new HashSet<>();
+	
+	
     public Enrollment() {}
 	public Enrollment(User user, Offer offer, Instant enrollMoment, 
 			 Instant refundMoment, boolean available,boolean onlyUpdate) {

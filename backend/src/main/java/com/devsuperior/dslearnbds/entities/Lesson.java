@@ -31,9 +31,14 @@ public abstract class Lesson implements Serializable {
 	private String title;
 	private Integer position;
 	
+	
 	@ManyToOne
 	@JoinColumn(name = "section_id")
 	private Section section;
+	
+	
+	@OneToMany(mappedBy = "lesson")
+	private List<Deliver> deliveries = new ArrayList<>();
 	
 	
 	@ManyToMany
@@ -45,6 +50,11 @@ public abstract class Lesson implements Serializable {
 		}
 	)
 	private Set<Enrollment> enrollmentsDone = new HashSet<>();
+	
+	
+	
+	
+	
 	
     public Lesson() {}
     public Lesson(Long id, String title, Integer position, Section section) {

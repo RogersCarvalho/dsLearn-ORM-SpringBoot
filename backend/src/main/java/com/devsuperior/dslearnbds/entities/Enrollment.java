@@ -30,10 +30,12 @@ public class Enrollment {
 	private boolean available;
 	private boolean onlyUpdate;
 
-	
-	
 	@ManyToMany(mappedBy = "enrollmentsDone")
 	private Set<Lesson> lessonsDone = new HashSet<>();
+	
+	
+	@OneToMany(mappedBy = "enrollment")
+	private List<Deliver> deliveries = new ArrayList<>();
 	
 	
     public Enrollment() {}
@@ -59,15 +61,11 @@ public class Enrollment {
     public boolean isAvailable() {return available;}
     public void setAvailable(boolean available) {this.available = available;}
     public boolean isOnlyUpdate() {return onlyUpdate;}
-    public void setOnlyUpdate(boolean onlyUpdate) {
-		this.onlyUpdate = onlyUpdate;
-	}
+    public void setOnlyUpdate(boolean onlyUpdate) {this.onlyUpdate = onlyUpdate;}
+    public List<Deliver> getDeliveries() {return deliveries;}
 
-	//public List<Deliver> getDeliveries() {
-	//	return deliveries;
-	//}
-
-	@Override
+	
+    @Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

@@ -9,21 +9,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.devsuperior.dslearnbds.dto.NotificationDTO;
-//import com.devsuperior.dslearnbds.services.NotificationService;
+import com.devsuperior.dslearnbds.services.NotificationService;
 
 @RestController
 @RequestMapping(value = "/notifications")
 public class NotificationResource {
 
-	//@Autowired
-	//private NotificationService service;
+	@Autowired
+	private NotificationService notificationService;
 	
-	/*
+	
 	@GetMapping
 	public ResponseEntity<Page<NotificationDTO>> notificationsForCurrentUser(Pageable pageable) {
 		
-		Page<NotificationDTO> page = service.notificationsForCurrentUser(pageable);		
+		Page<NotificationDTO> page = notificationService.notificationsForCurrentUser(pageable);		
 		return ResponseEntity.ok().body(page);
 	}
-	*/
+	
 }

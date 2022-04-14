@@ -20,8 +20,33 @@ import com.devsuperior.dslearnbds.services.exceptions.UnauthorizedException;
 @ControllerAdvice
 public class ResourceExceptionHandler {
 
+	
+	
+	
+	@ExceptionHandler(ForbiddenException.class)
+	public ResponseEntity<OAuthCustomError> forbidden(ForbiddenException e, 
+			                                          HttpServletRequest request) {
+		
+		OAuthCustomError err = new OAuthCustomError("Forbidden", e.getMessage());
+		
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
+	}
+
+	
+	
+
+	@ExceptionHandler(UnauthorizedException.class)
+	public ResponseEntity<OAuthCustomError> unauthorized(UnauthorizedException e, 
+			                                             HttpServletRequest request) {
+		OAuthCustomError err = new OAuthCustomError("Unauthorized", e.getMessage());
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(err);
+	}	
+	
+	
+	
 	@ExceptionHandler(ResourceNotFoundException.class)
-	public ResponseEntity<StandardError> entityNotFound(ResourceNotFoundException e, HttpServletRequest request) {
+	public ResponseEntity<StandardError> entityNotFound(ResourceNotFoundException e, 
+			                                            HttpServletRequest request) {
 		HttpStatus status = HttpStatus.NOT_FOUND;
 		StandardError err = new StandardError();
 		err.setTimestamp(Instant.now());
@@ -53,23 +78,17 @@ public class ResourceExceptionHandler {
 		err.setError("Validation exception");
 		err.setMessage(e.getMessage());
 		err.setPath(request.getRequestURI());
-		
 		for (FieldError f : e.getBindingResult().getFieldErrors()) {
 			err.addError(f.getField(), f.getDefaultMessage());
 		}
-		
 		return ResponseEntity.status(status).body(err);
 	}	
 	
-	@ExceptionHandler(ForbiddenException.class)
-	public ResponseEntity<OAuthCustomError> forbidden(ForbiddenException e, HttpServletRequest request) {
-		OAuthCustomError err = new OAuthCustomError("Forbidden", e.getMessage());
-		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
-	}
-
-	@ExceptionHandler(UnauthorizedException.class)
-	public ResponseEntity<OAuthCustomError> unauthorized(UnauthorizedException e, HttpServletRequest request) {
-		OAuthCustomError err = new OAuthCustomError("Unauthorized", e.getMessage());
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(err);
-	}	
+	
 }
+
+
+
+
+
+

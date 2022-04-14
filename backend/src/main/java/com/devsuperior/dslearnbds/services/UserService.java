@@ -12,10 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.devsuperior.dslearnbds.dto.UserDTO;
-//import com.devsuperior.dslearnbds.dto.UserDTO;
+
 import com.devsuperior.dslearnbds.entities.User;
 import com.devsuperior.dslearnbds.repositories.UserRepository;
 import com.devsuperior.dslearnbds.services.exceptions.ResourceNotFoundException;
+
 
 @Service
 public class UserService implements UserDetailsService {
@@ -24,18 +25,21 @@ public class UserService implements UserDetailsService {
 
 	@Autowired
 	private UserRepository repository;
+	@Autowired
+	private AuthService authService;
 	
 	
 	@Transactional(readOnly = true)
 	public UserDTO findById(Long id) {
-		//authService.validateSelfOrAdmin(id);
+		
+		authService.validateSelfOrAdmin(id);
+		
 		Optional<User> obj = repository.findById(id);
-		User entity = obj.orElseThrow(
-				           () -> new ResourceNotFoundException("Id not found")
-			           );
+		User entity = obj.orElseThrow(() -> new ResourceNotFoundException("Id not found"));
 		return new UserDTO(entity);	
 	}
 
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) 
 			                                     throws UsernameNotFoundException {

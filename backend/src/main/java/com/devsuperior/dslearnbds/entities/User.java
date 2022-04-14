@@ -38,8 +38,6 @@ public class User implements UserDetails, Serializable {
 	private String email;
 	private String password;
 	
-
-	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "tb_user_role",
 		joinColumns = @JoinColumn(name = "user_id"),
@@ -49,9 +47,23 @@ public class User implements UserDetails, Serializable {
 	@OneToMany(mappedBy = "user")
 	private List<Notification> notifications = new ArrayList<>();
 	
-	public User() {
+	
+	public boolean hasHole(String roleName) {
+		for (Role role : roles) {
+			if (role.getAuthority().equals(roleName)) {
+				return true;
+			}
+		}
+		return false;
 	}
-
+	
+	
+	
+	
+	
+	
+	
+	public User() {}
 	public User(Long id, String name, String email, String password) {
 		super();
 		this.id = id;
@@ -148,14 +160,8 @@ public class User implements UserDetails, Serializable {
 	
 	
 	
-	public boolean hasHole(String roleName) {
-		for (Role role : roles) {
-			if (role.getAuthority().equals(roleName)) {
-				return true;
-			}
-		}
-		return false;
-	}	
+	
+	
 }
 
 
